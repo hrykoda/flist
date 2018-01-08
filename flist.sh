@@ -5,7 +5,7 @@ wlog() {
   echo "${TSTAMP} [$$] $@"
 }
 
-WORK_DIR=/tmp/flist
+WORK_DIR=/Develop/tmp/flist
 SP=0
 EP=999
 CLEAN=0
@@ -35,7 +35,7 @@ OTFL=${WORK_DIR}/${PPP}.txt
 if [ $SP -le $P -a $EP -ge $P ]
 then
   wlog STA ${PPP}; TS[${P}]=`date +%s`
-  find / -type f -ls > ${OTFL}
+  find / -ls > ${OTFL}
   wlog END ${PPP} "(`expr $(date +%s) - ${TS[${P}]}` sec)"
 fi
 
@@ -46,8 +46,19 @@ OTFL=${WORK_DIR}/${PPP}.txt
 if [ $SP -le $P -a $EP -ge $P ]
 then
   wlog STA ${PPP}; TS[${P}]=`date +%s`
-  sort -r -k 11,11 ${INFL} > ${OTFL}
+  sort -b -k 11r,11 ${INFL} > ${OTFL}
   wlog END ${PPP} "(`expr $(date +%s) - ${TS[${P}]}` sec)"
 fi
 
+# ------
+P=3;PPP=`printf %03d ${P}`
+OTFL=${WORK_DIR}/${PPP}.txt
+if [ $SP -le $P -a $EP -ge $P ]
+then
+  wlog STA ${PPP}; TS[${P}]=`date +%s`
+  sort -b -k 7ir,7 ${INFL} > ${OTFL}
+  wlog END ${PPP} "(`expr $(date +%s) - ${TS[${P}]}` sec)"
+fi
+
+# ------
 wlog END ALL "(`expr $(date +%s) - ${TS[0]}` sec)"
